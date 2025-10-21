@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  mysql_database:
+    container_name: mysql_database
+    image: mysql:8
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:      
+      MYSQL_USER: 'suscribete'
+      MYSQL_PASSWORD: 'Recuerda_Suscribirte'
+      MYSQL_ROOT_PASSWORD: 'pwd_root'      
+    volumes:
+      - .\data:/var/lib/mysql
+      - .\init:/docker-entrypoint-initdb.d
+    networks:
+      - backend
+networks:
+  backend:
+    name: pam_facturacion_backend
