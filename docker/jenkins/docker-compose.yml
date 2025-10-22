@@ -6,6 +6,7 @@ services:
     image: jenkins/jenkins:lts
     volumes:
       - .\jenkins_home:/var/jenkins_home
+      - D:\PDS2025\LaravelProject:/var/jenkins_home/workspace/laravel 
     ports:
       - "9080:8080"
     networks:

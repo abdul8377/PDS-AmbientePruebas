@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Local') {
+            steps {
+                dir('/var/jenkins_home/workspace/laravel') { 
+                    sh 'ls -la'
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonar-docker') {
+                    dir('/var/jenkins_home/workspace/laravel') {
+                        sh '''
+                            sonar-scanner \
+                              -Dsonar.projectKey=laravel-app \
+                              -Dsonar.sources=app,routes,config,database \
+                              -Dsonar.exclusions=vendor/**,storage/**,bootstrap/**,public/**,node_modules/** \
+                              -Dsonar.host.url=http://docker.sonar:9000 \
+                              -Dsonar.login=squ_04e1c8241ac31513dc1dd6263b3f4d3cf214214a
+                        '''
+                    }
+                }
+            }
+        }
+    }
+}
